@@ -162,11 +162,38 @@
     .chat-input button:focus {
       outline: none;
     }
-          .chat-input svg {
+      .chat-input svg {
       width: 20px;
       height: 20px;
       fill: white;
     }
+    .bubble-container {
+    width: 100%;
+    padding: 6px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:left;
+    background: #fff;
+    border-top: 1px solid #eee;
+  }
+
+  .chat-bubble {
+    padding: 8px 16px;
+    background: ${config.iconColor}15;
+    border: 1px solid ${config.iconColor}30;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: ${config.iconColor};
+    white-space: nowrap;
+    margin: 4px;
+  }
+
+  .chat-bubble:hover {
+    background: ${config.iconColor}25;
+    transform: translateY(-2px);
+  }
     `;
   document.head.appendChild(styles);
   // <img src="https://raw.githubusercontent.com/genimatics/geni-script/7ec5af75c9c5bed1f60d85ba8241d7f2b1ba5095/bg-logo.png" alt="AI" style="width: 50px; height: 50px;"/>
@@ -190,7 +217,14 @@
                 Ask Geni
                 </div>
                 <div class="chat-messages"></div>
+                <div class="bubble-container">
+        <button class="chat-bubble">What services do you offer?</button>
+        <button class="chat-bubble">I need technical support</button>
+        <button class="chat-bubble">Schedule a demo</button>
+        <button class="chat-bubble">Contact sales</button>
+      </div>
                 <div class="chat-input">
+                  
                     <input type="text" placeholder="Type a message...">
                     <button type="button" id="send-button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -323,7 +357,13 @@
 
   const sendButton = document.getElementById("send-button"); // Adjust ID as needed
   sendButton.addEventListener("click", handleChatMessage);
-
+  // Add event listeners for bubbles
+document.querySelectorAll('.chat-bubble').forEach(bubble => {
+  bubble.addEventListener('click', () => {
+    chatInput.value = bubble.textContent;
+    handleChatMessage();
+  });
+});
   // Helper function to add messages to the chat
   function addMessage(text, type) {
     const messageDiv = document.createElement("div");
